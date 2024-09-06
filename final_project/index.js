@@ -11,7 +11,15 @@ app.use(express.json());
 app.use("/customer",session({secret:"fingerprint_customer",resave: true, saveUninitialized: true}))
 
 app.use("/customer/auth/*", function auth(req,res,next){
-//Write the authenication mechanism here
+    // Check if the password query parameter matches the expected value
+    if (req.query.password !== "pwd1234") {
+        // Send an error response if the password does not match
+        return res.status(402).send("This user cannot login ");
+    }
+    // Log the current time
+    console.log('Time:', Date.now());
+    // Call the next middleware function
+    next();
 });
  
 const PORT =5000;
