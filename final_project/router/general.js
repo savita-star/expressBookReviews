@@ -14,17 +14,12 @@ public_users.post("/register", (req, res) => {
       .status(400)
       .json({ error: "Username and password are required." });
   }
-
   if (isValid(username)) {
     return res.status(400).json({ error: "Username already exists." });
   }
-
   if(username && password) {
     users.push({"username": username, "password": password});
   }
-
-
-
   return res.status(201).json({ message: "User registered successfully." });
 });
 
