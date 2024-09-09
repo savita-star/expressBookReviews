@@ -37,7 +37,40 @@ regd_users.post("/login", (req,res) => {
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
   //Write your code here
-  return res.status(300).json({ message: "Yet to be implemented" });
+    const isbn = req.params.isbn;
+    
+    let filtered_users = books.filter((user) => user.isbn === isbn);
+    
+    if (filtered_users?.length > 0) {
+        // Select the first matching user and update attributes if provided
+        let filtered_user = filtered_users[0];
+        let review = req.query.reviews;    
+        if (review) {
+            filtered_user.reviews = review;
+        }
+        
+        // Replace old user entry with updated user
+        users = users.filter((user) => user.isbn != isbn);
+        users.push(filtered_user);
+        
+        // Send success message indicating the user has been updated
+        res.send(`User with the isbn ${isbn} updated.`);
+    } else {
+        // Send error message if no user found
+        res.send("Unable to find user!");
+    }
+});
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+  const isbn = req.params.isbn;
+  const username = req.session.authorization.username;
+  if (books[isbn]) {
+    let book = books[isbn];
+    delete book.reviews[username];
+    return res.status(200).send("Review successfully deleted");
+  }
+  else {
+    return res.status(404).json({message: `ISBN ${isbn} not found`});
+  }
 });
 
 module.exports.authenticated = regd_users;

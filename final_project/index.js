@@ -11,6 +11,7 @@ app.use(express.json());
 app.use("/customer",session({secret:"fingerprint_customer",resave: true, saveUninitialized: true}))
 
 app.use("/customer/auth/*", function auth(req,res,next){
+    console.log(typeof(req.query.password));
     // Check if the password query parameter matches the expected value
     if (req.query.password !== "pwd1234") {
         // Send an error response if the password does not match
