@@ -62,10 +62,12 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
 });
 regd_users.delete("/auth/review/:isbn", (req, res) => {
   const isbn = req.params.isbn;
-  const username = req.session.authorization.username;
-  if (books[isbn]) {
-    let book = books[isbn];
-    delete book.reviews[username];
+  const username = req.query.username;
+  let book = books.find((user) => user.isbn === isbn);
+  console.log(isbn, username, book);
+
+  if (!!book) {
+    delete book.reviews;
     return res.status(200).send("Review successfully deleted");
   }
   else {
