@@ -17,6 +17,7 @@ const authenticatedUser = (username, password) => {
   return validusers.length > 0;
 };
 
+//Task-7
 //only registered users can login
 regd_users.post("/login", (req,res) => {
   console.log(req);
@@ -34,6 +35,8 @@ regd_users.post("/login", (req,res) => {
   }
   res.send("User logged in Successfully")
 });
+
+//Task-8
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
   //Write your code here
@@ -60,6 +63,9 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
         res.send("Unable to find user!");
     }
 });
+
+//Task-9
+//Review Deleted
 regd_users.delete("/auth/review/:isbn", (req, res) => {
   const isbn = req.params.isbn;
   const username = req.query.username;
